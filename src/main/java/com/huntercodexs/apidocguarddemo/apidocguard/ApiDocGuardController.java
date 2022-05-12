@@ -2,6 +2,7 @@ package com.huntercodexs.apidocguarddemo.apidocguard;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,14 @@ public class ApiDocGuardController {
 	@GetMapping(path = {
 			"/",
 			"/error",
+			"/swagger",
+			"/swagger/",
+			"/swagger/index",
+			"/swagger/index.html",
+			"/swagger/login",
+			"/swagger/sign",
+			"/swagger/viewer",
+			"/swagger/logout",
 			"/swagger-ui",
 			"/swagger-ui/",
 			"/swagger-ui/index",
@@ -36,7 +45,7 @@ public class ApiDocGuardController {
 			"/swagger-ui/login",
 			"/swagger-ui/sign",
 			"/swagger-ui/viewer",
-			"/swagger-ui/logout"
+			"/swagger-ui/logout",
 	})
 	public String sentinelRoutes(HttpServletRequest request, HttpServletResponse response) {
 		if (request.getServletPath().equals("/swagger-ui/logout")) {
