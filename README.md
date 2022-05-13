@@ -80,7 +80,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.212-b10, mixed mode)
 > The openAPI with Swagger-UI is available to query and help understand the application by REST API
 
 * http://localhost:31303/swagger-ui/viewer
-
+  https://github.com/swagger-api/swagger-ui
 ---------------------------------------------------------------------------------------------------
 
 # Tests
