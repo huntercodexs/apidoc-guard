@@ -30,22 +30,24 @@ public class ApiDocGuardController {
 	@GetMapping(path = {
 			"/",
 			"/error",
+
 			"/swagger",
 			"/swagger/",
-			"/swagger/index",
-			"/swagger/index.html",
 			"/swagger/login",
 			"/swagger/sign",
 			"/swagger/viewer",
 			"/swagger/logout",
+			"/swagger/index",
+			"/swagger/index.html",
+
 			"/swagger-ui",
 			"/swagger-ui/",
-			"/swagger-ui/index",
-			"/swagger-ui/index.html",
 			"/swagger-ui/login",
 			"/swagger-ui/sign",
 			"/swagger-ui/viewer",
 			"/swagger-ui/logout",
+			"/swagger-ui/index",
+			"/swagger-ui/index.html"
 	})
 	public String sentinelRoutes(HttpServletRequest request, HttpServletResponse response) {
 		if (request.getServletPath().equals("/swagger-ui/logout")) {
@@ -113,7 +115,7 @@ public class ApiDocGuardController {
 	@Operation(hidden = true)
 	@GetMapping(path = "/swagger-ui/sentinel")
 	public ModelAndView sentinel() {
-		return new ModelAndView("login");
+		return new ModelAndView("apidocguard/login");
 	}
 
 	@Operation(hidden = true)

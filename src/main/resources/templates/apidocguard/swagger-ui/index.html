@@ -1,6 +1,5 @@
-<!-- HTML for static distribution bundle build -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Swagger UI</title>
@@ -8,19 +7,19 @@
     <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
     <style>
-        /*html
+        html
         {
             box-sizing: border-box;
             overflow: -moz-scrollbars-vertical;
             overflow-y: scroll;
-        }*/
+        }
 
-        /**,
+        *,
         *:before,
         *:after
         {
             box-sizing: inherit;
-        }*/
+        }
 
         body
         {
@@ -60,23 +59,27 @@
             width: 100%;
             display: block;
         }
+        #span-api-docs-path {
+            display: none !important;
+        }
     </style>
 </head>
 
 <body>
 
-<div id="inject-content">
-    <span id="exit"><a href="/swagger-ui/logout">&#10162;</a></span>
-</div>
+<div id="inject-content"><span id="exit"><a href="/swagger-ui/logout">&#10162;</a></span></div>
 <div id="swagger-ui"></div>
+<span id="span-api-docs-path" th:text="${api_docs_path}"></span>
 
 <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
 <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
 <script>
     window.onload = function() {
+      //Custom Api-Docs-Path
+      let url_api_docs_path = document.getElementById('span-api-docs-path').innerText;
       // Begin Swagger UI call region
       const ui = SwaggerUIBundle({
-        url: "/api-docs-guard",
+        url: url_api_docs_path,
         dom_id: '#swagger-ui',
         deepLinking: true,
         presets: [

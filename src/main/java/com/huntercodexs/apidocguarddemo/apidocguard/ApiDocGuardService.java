@@ -20,6 +20,9 @@ public class ApiDocGuardService {
     @Value("${apidocguard.type:swagger}")
     String apiDocGuardType;
 
+    @Value("${springdoc.api-docs.path:/api-docs-guard}")
+    String apiDocsPath;
+
     @Autowired
     ApiDocGuardRepository apiDocGuardRepository;
 
@@ -34,7 +37,7 @@ public class ApiDocGuardService {
 
         if (username.equals("") || password.equals("")) {
             System.out.println("MISSING DATA TO LOGIN");
-            return new ModelAndView("login");
+            return new ModelAndView("apidocguard/login");
         }
 
         String passwordCrypt = dataCrypt(password);
@@ -48,7 +51,9 @@ public class ApiDocGuardService {
 
             switch (apiDocGuardType) {
                 case "swagger":
-                    return new ModelAndView("apidocguard/swagger-ui/index");
+                    ModelAndView modelAndView = new ModelAndView("apidocguard/swagger-ui/index");
+                    modelAndView.addObject("api_docs_path", apiDocsPath);
+                    return modelAndView;
                 case "adobe":
                     return new ModelAndView("apidocguard/adobe-aem/index");
                 case "authentiq":
@@ -58,7 +63,8 @@ public class ApiDocGuardService {
         }
 
         System.out.println("LOGIN FAIL: " + body.get("username"));
-        return new ModelAndView("login");
+        return new ModelAndView("apidocguard/login");
+
     }
 
     public String dataCrypt(String data) {
