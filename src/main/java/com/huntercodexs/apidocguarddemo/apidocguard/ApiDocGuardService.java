@@ -26,26 +26,35 @@ public class ApiDocGuardService {
     @Autowired
     ApiDocGuardRepository apiDocGuardRepository;
 
-    public ModelAndView login(
-            HttpServletRequest req,
-            HttpServletResponse res,
-            Map<String, String> body
-    ) {
+    public boolean login(HttpServletRequest req, HttpServletResponse res, Map<String, String> body) {
 
-        String username = body.get("username");
-        String password = body.get("password");
+        try {
 
-        if (username.equals("") || password.equals("")) {
-            System.out.println("MISSING DATA TO LOGIN");
-            return new ModelAndView("apidocguard/login");
+            String username = body.get("username");
+            String password = body.get("password");
+
+            if (username.equals("") || password.equals("")) {
+                System.out.println("MISSING DATA TO LOGIN");
+                return false;
+            }
+
+            String passwordCrypt = dataCrypt(password);
+            ApiDocGuardEntity apiDocGuardEntity = apiDocGuardRepository.findByLogin(username, passwordCrypt);
+
+            if (apiDocGuardEntity != null) {
+                System.out.println("LOGIN SUCCESS: " + body.get("username"));
+                return true;
+            }
+
+        } catch (RuntimeException re) {
+            System.out.println("LOGIN FAIL: " + re.getMessage());
         }
+        return false;
+    }
 
-        String passwordCrypt = dataCrypt(password);
-        ApiDocGuardEntity apiDocGuardEntity = apiDocGuardRepository.findByLogin(username, passwordCrypt);
+    public ModelAndView protector(HttpServletRequest req, HttpServletResponse res, Map<String, String> body) {
 
-        if (apiDocGuardEntity != null) {
-
-            System.out.println("LOGIN SUCCESS: " + body.get("username"));
+        if (login(req, res, body)) {
             System.out.println("GUARD TYPE: " + apiDocGuardType);
             res.setHeader("Api-Doc-Guard-User", body.get("username"));
 
@@ -62,9 +71,19 @@ public class ApiDocGuardService {
 
         }
 
-        System.out.println("LOGIN FAIL: " + body.get("username"));
-        return new ModelAndView("apidocguard/login");
-
+        ModelAndView modelAndView = new ModelAndView("apidocguard/login");
+        switch (apiDocGuardType) {
+            case "swagger":
+                modelAndView.addObject("api_doc_guard_type", "/swagger-ui/protector");
+                break;
+            case "adobe":
+                modelAndView.addObject("api_doc_guard_type", "/adobe-aem/protector");
+                break;
+            case "authentiq":
+                modelAndView.addObject("api_doc_guard_type", "/authentiq-api/protector");
+                break;
+        }
+        return modelAndView;
     }
 
     public String dataCrypt(String data) {
