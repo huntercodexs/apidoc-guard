@@ -59,7 +59,7 @@
             width: 100%;
             display: block;
         }
-        #span-api-docs-path {
+        #hidden-api-docs-path {
             display: none !important;
         }
     </style>
@@ -67,16 +67,16 @@
 
 <body>
 
-<div id="inject-content"><span id="exit"><a href="/swagger-ui/logout">&#10162;</a></span></div>
+<input id="hidden-api-docs-path" type="hidden" th:value="${api_docs_path}" />
+<div id="inject-content"><span id="exit"><a href="/doc-protect/logout">&#10162;</a></span></div>
 <div id="swagger-ui"></div>
-<span id="span-api-docs-path" th:text="${api_docs_path}"></span>
 
 <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
 <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
 <script>
     window.onload = function() {
       //Custom Api-Docs-Path
-      let url_api_docs_path = document.getElementById('span-api-docs-path').innerText;
+      let url_api_docs_path = document.getElementById('hidden-api-docs-path').value;
       // Begin Swagger UI call region
       const ui = SwaggerUIBundle({
         url: url_api_docs_path,
