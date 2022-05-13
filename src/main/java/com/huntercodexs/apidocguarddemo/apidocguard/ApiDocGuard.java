@@ -20,9 +20,14 @@ public class ApiDocGuard {
 	@Operation(hidden = true)
 	@GetMapping(path = {
 			"{$springdoc.api-docs.path:/api/docs}",
+			"{$springdoc.api-docs.path:/api/docs}/swagger-config",
 			"/api-docs",
+			"/api-docs/swagger-config",
 			"/api-doc-guard",
-			"/api-docs-guard"})
+			"/api-doc-guard/swagger-config",
+			"/api-docs-guard",
+			"/api-docs-guard/swagger-config"
+	})
 	public String sentinelApiDocsRoute() {
 		return "redirect:/doc-protect/logout";
 	}

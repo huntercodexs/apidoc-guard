@@ -23,6 +23,12 @@ public class ApiDocGuardService {
     @Value("${springdoc.api-docs.path:/api-docs-guard}")
     String apiDocsPath;
 
+    @Value("${apidocguard.url.show:true}")
+    String showUrlApiDocs;
+
+    @Value("${springdoc.swagger-ui.layout:StandaloneLayout}")
+    String swaggerLayout;
+
     @Autowired
     ApiDocGuardRepository apiDocGuardRepository;
 
@@ -62,6 +68,8 @@ public class ApiDocGuardService {
                 case "swagger":
                     ModelAndView modelAndView = new ModelAndView("apidocguard/swagger-ui/index");
                     modelAndView.addObject("api_docs_path", apiDocsPath);
+                    modelAndView.addObject("swagger_layout", swaggerLayout);
+                    modelAndView.addObject("show_url_api_docs", showUrlApiDocs);
                     return modelAndView;
                 case "adobe":
                     return new ModelAndView("apidocguard/adobe-aem/index");
