@@ -1,6 +1,8 @@
 # API DOC GUARD DEMO
 Project Description
 
+![img.png](./src/data/midias/img1.png)
+
 # Application Integrity Identify
 
 > MD5-File (jar): 00000000000000000000000000000000000000
@@ -22,8 +24,10 @@ Project Description
 * Rest Repositories
 * Rest Template (Client)
 * Swagger (OpenAPI 3)
+* Thymeleaf
+* Crypto/MD5
 
-# Details
+# Environment Details
 <pre>
 - Linux Ubuntu 20.04 LTS
 
@@ -79,7 +83,93 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.212-b10, mixed mode)
 
 > The openAPI with Swagger-UI is available to query and help understand the application by REST API
 
-* http://localhost:31303/swagger-ui/viewer
+* http://localhost:31303/swagger-ui/protector
+
+---------------------------------------------------------------------------------------------------
+
+# How to use
+
+> pom.xml (dependencies)
+
+<code>
+
+    <!--DATABASE-->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+    
+    <!--DOC-->
+    <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-ui</artifactId>
+        <version>1.6.4</version>
+    </dependency>
+    <dependency><!--NEEDED TO USE IN API DOC GUARD-->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+    <dependency><!--NEEDED TO USE BCRYPT IN API DOC GUARD-->
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-crypto</artifactId>
+        <version>5.6.1</version>
+    </dependency>
+
+</code>
+
+> application.properties
+
+<pre>
+## SWAGGER
+#----------------------------------------------------------------------------------------------------
+# See more: https://springdoc.org/properties.html
+springdoc.swagger-ui.enabled=true
+springdoc.swagger-ui.path=/swagger-ui-test.html
+springdoc.swagger-ui.operationsSorter=method
+
+#StandaloneLayout, BaseLayout
+springdoc.swagger-ui.layout=StandaloneLayout
+#/api-docs, api-docs-guard, /api-docs-custom
+springdoc.api-docs.path=/api-docs-guard
+#true, false
+springdoc.model-and-view-allowed=true
+
+## API GUARD DOC
+#----------------------------------------------------------------------------------------------------
+#true, false
+apidocguard.enable=true
+#localhost, 192.168.15.14, app.domain.com
+apidocguard.server-name=192.168.15.14
+#swagger, adobe, authentiq
+apidocguard.type=swagger
+#md5, bcrypt
+apidocguard.data.crypt.type=md5
+#true, false
+apidocguard.url.show=true
+#Secrect
+apidocguard.secret=9ba8c91f-cacf-41d2-be8d-e8d1bc844a96
+</pre>
+
+> src/main/resources/templates
+
+![img.png](./src/data/midias/img.png)
+
+* Get these file from official GitHub account swagger-ui
+
+> index.html (custom file)
+
+<pre>
+Use the current file index.html contained in this project, replace the original swagger index.html
+</pre>
+
+> src/main/java/com/domain/project-name
+
+![img.png](./src/data/midias/img2.png)
 
 ---------------------------------------------------------------------------------------------------
 
